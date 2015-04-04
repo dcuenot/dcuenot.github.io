@@ -1,123 +1,48 @@
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="{{ site.url }}">{{ site.title }}</a>
 
-<div id="navigation" class="sticky">
-  <nav class="top-bar" data-topbar>
-    <ul class="title-area">
-      <li class="name">
-      <h1 class="show-for-small-only"><a href="{{ site.url }}" class="icon-tree"> {{ site.title }}</a></h1>
-    </li>
-       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-      <li class="toggle-topbar menu-icon"><a href="#"><span>Navigation</span></a></li>
-    </ul>
-    <section class="top-bar-section">
-{% comment %}
 
-    ____  _       __    __     _   __            _             __  _           
-   / __ \(_)___ _/ /_  / /_   / | / /___ __   __(_)___ _____ _/ /_(_)___  ____ 
-  / /_/ / / __ `/ __ \/ __/  /  |/ / __ `/ | / / / __ `/ __ `/ __/ / __ \/ __ \
- / _, _/ / /_/ / / / / /_   / /|  / /_/ /| |/ / / /_/ / /_/ / /_/ / /_/ / / / /
-/_/ |_/_/\__, /_/ /_/\__/  /_/ |_/\__,_/ |___/_/\__, /\__,_/\__/_/\____/_/ /_/ 
-        /____/                                 /____/                          
-
-{% endcomment %}
-      <ul class="right">
-        {% for link in site.data.navigation %}
-
-              {% if link.url contains 'http' %}
-                {% assign domain = '' %}
-              {% elsif link.url == '#' %}
-                {% assign domain = '' %}
-              {% else %}
-                {% assign domain = site.url %}
-              {% endif %}
-
-          {% comment %}   If there are links for right side begin   {% endcomment %}
-          {% if link.side == 'right' %}
-            {% comment %}   If right side WITHOUT dropdown menu do   {% endcomment %}
-            {% if link.dropdown == nil %}
-              <li class="divider"></li>
-              <li{% if link.url == page.url %} class="active"{% endif %}><a href="{{ domain }}{{ link.url }}"{% if link.url contains 'http' %} target="_blank"{% endif %}>{{ link.title }}</a></li>
-
-            {% comment %}   If right side WITH dropdown menu do   {% endcomment %}
-            {% else %}
-
-              <li class="divider"></li>
-              <li class="has-dropdown{% if link.url == page.url %} active{% endif %}">
-                <a href="{{ domain }}{{ link.url }}"{% if link.url contains 'http' %} target="_blank"{% endif %}>{{ link.title }}</a>
-
-                  <ul class="dropdown">
-                    {% for dropdown_link in link.dropdown %}
-
-                      {% if dropdown_link.url contains 'http' %}
-                        {% assign domain = '' %}
-                        {% else %}
-                        {% assign domain = site.url %}
-                      {% endif %}
-
-                      <li><a href="{{ domain }}{{ dropdown_link.url }}"{% if dropdown_link.url contains 'http' %} target="_blank"{% endif %}>{{ dropdown_link.title }}</a></li>
+            <div class="nav-collapse">
+                <ul class="nav nav-tabs nav-justified">
+                    {% for link in site.navigation %}
+                        {% assign active = nil %}
+                        {% if page.url == link.url %}
+                            {% assign active = 'active' %}
+                        {% endif %}
+                        <li class="{{ active }}">
+                            <a href="{{ link.url }}"><i class="{{ link.icon}}"></i> {{ link.title }}</a>
+                        </li>
                     {% endfor %}
-                  </ul>
-                  
-              </li>
-            {% endif %}
-          {% endif %}
-        {% endfor %}
-        {% comment %}   First loop finished 1   {% endcomment %}
-      </ul>
-{% comment %}
 
-    __         ______     _   __            _             __  _           
-   / /   ___  / __/ /_   / | / /___ __   __(_)___ _____ _/ /_(_)___  ____ 
-  / /   / _ \/ /_/ __/  /  |/ / __ `/ | / / / __ `/ __ `/ __/ / __ \/ __ \
- / /___/  __/ __/ /_   / /|  / /_/ /| |/ / / /_/ / /_/ / /_/ / /_/ / / / /
-/_____/\___/_/  \__/  /_/ |_/\__,_/ |___/_/\__, /\__,_/\__/_/\____/_/ /_/ 
-                                          /____/                          
-
-{% endcomment %}
-      <ul class="left">
-        {% for link in site.data.navigation %}
-
-              {% if link.url contains 'http' %}
-                {% assign domain = '' %}
-              {% elsif link.url == '#' %}
-                {% assign domain = '' %}
-              {% else %}
-                {% assign domain = site.url %}
-              {% endif %}
-
-          {% comment %}   If there are links for left side begin   {% endcomment %}
-          {% if link.side == 'left' %}
-
-            {% comment %}   If left side WITHOUT dropdown menu do   {% endcomment %}
-            {% if link.dropdown == nil %}
-              <li{% if link.url == page.url %} class="active"{% endif %}><a href="{{ domain }}{{ link.url }}"{% if link.url contains 'http' %} target="_blank"{% endif %}>{{ link.title }}</a></li>
-              <li class="divider"></li>
-
-            {% comment %}   If left side WITH dropdown menu do   {% endcomment %}
-            {% else %}
-
-              <li class="has-dropdown{% if link.url == page.url %} active{% endif %}">
-                <a href="{{ domain }}{{ link.url }}"{% if link.url contains 'http' %} target="_blank"{% endif %}>{{ link.title }}</a>
-
-                  <ul class="dropdown">
-                    {% for dropdown_link in link.dropdown %}
-
-                      {% if dropdown_link.url contains 'http' %}
-                        {% assign domain = '' %}
-                        {% else %}
-                        {% assign domain = site.url %}
-                      {% endif %}
-
-                      <li><a href="{{ domain }}{{ dropdown_link.url }}"{% if dropdown_link.url contains 'http' %} target="_blank"{% endif %}>{{ dropdown_link.title }}</a></li>
-                    {% endfor %}
-                  </ul>
-                  
-              </li>
-              <li class="divider"></li>
-            {% endif %}
-          {% endif %}
-        {% endfor %}
-        {% comment %}   Second loop finished   {% endcomment %}
-      </ul>
-    </section>
-  </nav>
-</div><!-- /#navigation -->
+                    <!-- <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-list"></i> Projects <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class=""><a href="https://github.com/gkwelding/WSDLInterpreter" title="take me to the WSDLInterpreter github page" target="_blank">WSDLInterpreter</a></li>
+                            <li class=""><a href="https://github.com/gkwelding/Scene7WSDLPHPWrapper" title="take me to the Scene7WSDLPHPWrapper github page" target="_blank">Adobe Scene7 WSDL PHP Wrapper</a></li>
+                            <li class=""><a href="https://github.com/gkwelding/GoogleMapsV3CI" title="take me to the Google Maps V3 API for CodeIgniter github page" target="_blank">Google Maps V3 API for CodeIgniter</a></li>
+                            <li class=""><a href="https://github.com/gkwelding/MailchimpAPICI" title="take me to the MailChimp API for CodeIgniter github page" target="_blank">MailChimp API for CodeIgniter</a></li>
+                            <li class=""><a href="https://github.com/gkwelding/FuelPHP-Social-Package" title="take em to the FuelPHP Social Package github page" target="_blank">FuelPHP Social Package</a></li>
+                            <li class=""><a href="https://github.com/gkwelding/Bugzilla-Command-Line-Stats" title="take em to the Bugzilla Command Line Stats github page" target="_blank">Bugzilla Command Line Stats</a></li>
+                            <li class=""><a href="https://github.com/gkwelding/ihelp" title="Make em to the iHelp jQuery Plugin github page" target="_blank">iHelp jQuery Plugin</a></li>
+                        </ul>
+                    </li> -->
+                    <li id="search" class="search hidden-phone hidden-tablet">
+                        <span class="icon search"></span>
+                        <input type="text" placeholder="search">
+                        <i id="close" class="icon-remove"></i>
+                        <ol id="search-results" class="dropdown-menu">
+                        </ol>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
